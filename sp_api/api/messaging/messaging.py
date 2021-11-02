@@ -174,7 +174,7 @@ For more information, see "Usage Plans and Rate Limits" in the Selling Partner A
             ApiResponse:
         """
     
-        return self._request(fill_query_params(kwargs.pop('path'), order_id), data=kwargs)
+        return self._request(fill_query_params(kwargs.pop('path'), order_id), params=kwargs)
     
     @sp_endpoint('/messaging/v1/orders/{}/messages/confirmOrderDetails', method='POST')
     def create_confirm_order_details(self, order_id, **kwargs) -> ApiResponse:

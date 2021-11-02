@@ -130,7 +130,7 @@ class Client(BaseClient):
         if self.method == 'POST':
             if any(x in data.keys() for x in POST):
                 return
-            return data.update({k: self.marketplace_id if not k.endswith('s') else self.marketplace_id for k in POST})
+            return data.update({k: self.marketplace_id if not k.endswith('s') else [self.marketplace_id] for k in POST})
         if any(x in data.keys() for x in GET):
             return
         return data.update({k: self.marketplace_id if not k.endswith('s') else [self.marketplace_id] for k in GET})
