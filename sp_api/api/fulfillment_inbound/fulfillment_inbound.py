@@ -10,6 +10,7 @@ class FulfillmentInbound(Client):
     def plans(self, data, **kwargs):
         return self._request(kwargs.pop('path'), data={**data, **kwargs})
 
+
     @sp_endpoint("/fba/inbound/v0/shipments/{}", method='POST')
     def create_shipment(self, shipment_id, data, **kwargs):
         return self._request(fill_query_params(kwargs.pop('path'), shipment_id), data={**data, **kwargs})
