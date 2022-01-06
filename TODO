@@ -1,0 +1,4 @@
+1. Jobs to schedule future reports.
+2. Enum package for Code specific errors- example: messageObj error. with unique codes.
+3. Connect to rabbitMQ
+4. Add generic wait function for rate-limit and bursts ( avl in amazon documentation for all resp api.)

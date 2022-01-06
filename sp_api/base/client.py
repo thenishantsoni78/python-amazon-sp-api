@@ -16,7 +16,6 @@ from .exceptions import get_exception_for_code, MissingScopeException
 from .marketplaces import Marketplaces
 from sp_api.base import AWSSigV4
 from sp_api.base.credential_provider import CredentialProvider
-
 log = logging.getLogger(__name__)
 
 role_cache = TTLCache(maxsize=10, ttl=3600)
@@ -28,13 +27,14 @@ class Client(BaseClient):
 
     def __init__(
             self,
-            marketplace: Marketplaces = Marketplaces[os.environ.get('SP_API_DEFAULT_MARKETPLACE', Marketplaces.US.name)],
+            _marketplace,
             *,
             refresh_token=None,
             account='default',
             credentials=None,
             restricted_data_token=None
     ):
+        marketplace: Marketplaces = Marketplaces[_marketplace]
         self.credentials = CredentialProvider(account, credentials).credentials
         self.boto3_client = boto3.client(
             'sts',
@@ -116,12 +116,13 @@ class Client(BaseClient):
 
         if add_marketplace:
             self._add_marketplaces(data if self.method in ('POST', 'PUT') else params)
-
+        # data = {'reportType': 'GET_AMAZON_FULFILLED_SHIPMENTS_DATA_GENERAL', 'marketplaceIds': ['A21TJRUUN4KGV']}
         res = request(self.method, self.endpoint + path,
                       params=params,
                       data=json.dumps(data) if data and self.method in ('POST', 'PUT', 'PATCH') else None,
                       headers=headers or self.headers,
                       auth=self._sign_request())
+        resjs = res.json()
         return self._check_response(res)
 
     def _check_response(self, res) -> ApiResponse:

@@ -13,7 +13,6 @@ __version__ = '0.4'
 
 log = logging.getLogger(__name__)
 
-
 def sign_msg(key, msg):
     ''' Sign message using key '''
     return hmac.new(key, msg.encode('utf-8'), hashlib.sha256).digest()
@@ -36,7 +35,6 @@ class AWSSigV4(AuthBase):
         self.datestamp = t.strftime('%Y%m%d')
         log.debug("Starting authentication with amzdate=%s", self.amzdate)
         p = urlparse(r.url)
-
         host = p.hostname
         uri = urllib.parse.quote(p.path)
 
